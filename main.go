@@ -62,7 +62,7 @@ func start(logger *slog.Logger) error { //nolint:funlen // This is setup code
 	var cfg Config
 	err := cleanenv.ReadEnv(&cfg)
 	if err != nil {
-		return fmt.Errorf("failed to read env: %w", err)
+		return fmt.Errorf("faileod to read env: %w", err)
 	}
 
 	if cfg.EnableMetricExporter {
