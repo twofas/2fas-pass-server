@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: BUSL-1.1
+#
+# Copyright (C) 2025 Two Factor Authentication Service, Inc.
+# Licensed under the Business Source License 1.1
+# See LICENSE file for full terms
+
+name: Go
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop"]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Test if go.mod and go.sum are up to date
+        run: |
+          go mod tidy
+          git diff --exit-code
+      - name: Check if licences are up to date
+        run: |
+          set -euo pipefail
+          make licenses
+          git diff --exit-code
+      - name: Check if licence headers are up to date
+        run: |
+          make check-license-headers
+      - name: Check if code is formatted
+        run: |
+          make format
+          git diff --exit-code
+      - name: Run linters
+        run: make go-lint
+      - name: Unit Test once (to catch simple errors early)
+        run: go test -race ./...
+      - name: Unit Test multiple times (to catch flakely tests)
+        run: go test -race -count 200 -failfast ./...
+      - name: Build
+        run: go build ./...
+      - name: E2E
+        run: |
+          go run main.go &
+          RUN_E2E_TESTS=true go test ./e2e/... -v -count=1
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'v20.17'
+          cache: npm
+          cache-dependency-path: ./e2e/js/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./e2e/js
+      - name: Run e2e browser tests
+        run: npm test
+        working-directory: ./e2e/js

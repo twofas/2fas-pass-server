@@ -1,0 +1,262 @@
+[
+  {
+    "package": "cel.dev/expr",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/auth",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/auth/oauth2adapt",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/compute/metadata",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/firestore",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/iam",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/internal",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/longrunning/autogen/longrunningpb",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/monitoring",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "cloud.google.com/go/storage",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "firebase.google.com/go/v4",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/BurntSushi/toml",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/GoogleCloudPlatform/opentelemetry-operations-go/detectors/gcp",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/MicahParks/keyfunc",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/avast/retry-go",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/cenkalti/backoff/v4",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/cespare/xxhash/v2",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/cncf/xds/go",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/envoyproxy/go-control-plane/envoy",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/envoyproxy/protoc-gen-validate/validate",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/felixge/httpsnoop",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/go-logr/logr",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/go-logr/stdr",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/golang-jwt/jwt/v4",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/google/s2a-go",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/google/uuid",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "github.com/googleapis/enterprise-certificate-proxy/client",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/googleapis/gax-go/v2",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "github.com/gorilla/mux",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "github.com/gorilla/websocket",
+    "license": "BSD-2-Clause"
+  },
+  {
+    "package": "github.com/grpc-ecosystem/grpc-gateway/v2",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "github.com/ilyakaznacheev/cleanenv",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/jellydator/ttlcache/v3",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/joho/godotenv",
+    "license": "MIT"
+  },
+  {
+    "package": "go.opentelemetry.io/auto/sdk",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/detectors/gcp",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/instrumentation/runtime",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/metric",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/sdk",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/sdk/metric",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/trace",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/proto/otlp",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "golang.org/x/crypto",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/net",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/oauth2",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/sync",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/sys",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/text",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "golang.org/x/time/rate",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "google.golang.org/api",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "google.golang.org/api/internal/third_party/uritemplates",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "google.golang.org/genproto/googleapis/api",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "google.golang.org/genproto/googleapis/rpc",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "google.golang.org/genproto/googleapis/type",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "google.golang.org/grpc",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "google.golang.org/protobuf",
+    "license": "BSD-3-Clause"
+  },
+  {
+    "package": "gopkg.in/yaml.v3",
+    "license": "MIT"
+  },
+  {
+    "package": "olympos.io/encoding/edn",
+    "license": "BSD-3-Clause"
+  }
+]
