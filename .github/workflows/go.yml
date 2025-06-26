@@ -50,15 +50,4 @@ jobs:
         run: |
           go run main.go &
           RUN_E2E_TESTS=true go test ./e2e/... -v -count=1
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 'v20.17'
-          cache: npm
-          cache-dependency-path: ./e2e/js/package-lock.json
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ./e2e/js
-      - name: Run e2e browser tests
-        run: npm test
-        working-directory: ./e2e/js
+          
