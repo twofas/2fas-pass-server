@@ -44,6 +44,10 @@ func health(writer http.ResponseWriter, req *http.Request) {
 	_, _ = writer.Write([]byte("OK"))
 }
 
+const (
+	healthEndpointName = "GET health"
+)
+
 // Setup http (and ws) server.
 func Setup(
 	r *mux.Router,
@@ -53,7 +57,7 @@ func Setup(
 ) {
 	r.HandleFunc("/health", health).
 		Methods("GET").
-		Name("GET health")
+		Name(healthEndpointName)
 
 	r.HandleFunc("/proxy/browser_extension/{connection_id}", serveBrowserExtension(logger, pool)).
 		Name("WS proxy/browser_extension/{connection_id}")

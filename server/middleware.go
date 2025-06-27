@@ -54,6 +54,12 @@ func loggingMiddleware(logger *slog.Logger) mux.MiddlewareFunc {
 				routeName = "unknown"
 			}
 
+			// Don't log health endpoint requests to avoid cluttering logs.
+			if routeName == healthEndpointName {
+				next.ServeHTTP(w, r)
+				return
+			}
+
 			start := time.Now()
 			logger.Info(
 				"request started",
