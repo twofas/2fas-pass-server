@@ -6,13 +6,15 @@
 
 FROM golang:1.24-alpine AS builder
 RUN apk add --no-cache git
-
 WORKDIR /go/src/2fas-pass-server
+
+ARG SOURCE_COMMIT
 
 COPY . .
 RUN go mod download
+
 # Build the application
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /go/bin/2fas-pass-server
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w -X main.SourceCommit=${SOURCE_COMMIT}" -o /go/bin/2fas-pass-server
 RUN cd healthcheck && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /go/bin/healthcheck
 
 # Now copy it into base image.
