@@ -46,8 +46,12 @@ type Config struct {
 	EnableMetricExporter bool `env:"ENABLE_METRIC_EXPORTER" env-default:"false"`
 }
 
+var SourceCommit = "unknown" // This will be set by the build system.
+
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+
+	logger.Info("Starting 2FAS Pass Server", slog.String("source_commit", SourceCommit))
 
 	if err := start(logger); err != nil {
 		logger.Error("Failed to start", slog.Any("error", err))
