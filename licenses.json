@@ -68,7 +68,7 @@
     "license": "MIT"
   },
   {
-    "package": "github.com/cenkalti/backoff/v4",
+    "package": "github.com/cenkalti/backoff/v5",
     "license": "MIT"
   },
   {
@@ -90,6 +90,14 @@
   {
     "package": "github.com/felixge/httpsnoop",
     "license": "MIT"
+  },
+  {
+    "package": "github.com/go-jose/go-jose/v4",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/go-jose/go-jose/v4/json",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "github.com/go-logr/logr",
@@ -141,6 +149,14 @@
   },
   {
     "package": "github.com/joho/godotenv",
+    "license": "MIT"
+  },
+  {
+    "package": "github.com/spiffe/go-spiffe/v2",
+    "license": "Apache-2.0"
+  },
+  {
+    "package": "github.com/zeebo/errs",
     "license": "MIT"
   },
   {
