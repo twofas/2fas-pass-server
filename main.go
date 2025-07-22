@@ -49,7 +49,7 @@ type Config struct {
 var SourceCommit = "unknown" // This will be set by the build system.
 
 func main() {
-	logger := slog.New(slog.NewTextHandler(os.Stderr, nil))
+	logger := slog.New(slog.NewJSONHandler(os.Stderr, nil))
 
 	logger.Info("Starting 2FAS Pass Server", slog.String("source_commit", SourceCommit))
 
