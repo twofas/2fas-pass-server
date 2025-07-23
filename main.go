@@ -70,7 +70,7 @@ func start(logger *slog.Logger) error { //nolint:funlen // This is setup code
 	}
 
 	if !cfg.EnableMetricExporter {
-		logger.Info("OTEL Metric Exporter is disabled")
+		logger.Info("Metrics exporter is disabled")
 	}
 
 	shutdown, err := metrics.Setup(context.Background(), cfg.EnableMetricExporter)
