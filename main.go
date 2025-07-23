@@ -69,20 +69,20 @@ func start(logger *slog.Logger) error { //nolint:funlen // This is setup code
 		return fmt.Errorf("failed to read env: %w", err)
 	}
 
-	if cfg.EnableMetricExporter {
-		shutdown, err := metrics.Setup(context.Background())
-		if err != nil {
-			return fmt.Errorf("failed to setup metrics exporter: %w", err)
-		}
-		defer func() {
-			err := shutdown(context.Background())
-			if err != nil {
-				logger.Error("Failed to shutdown metrics exporter", slog.Any("error", err))
-			}
-		}()
-	} else {
-		logger.Info("Metrics exporter is disabled")
+	if !cfg.EnableMetricExporter {
+		logger.Info("OTEL Metric Exporter is disabled")
 	}
+
+	shutdown, err := metrics.Setup(context.Background(), cfg.EnableMetricExporter)
+	if err != nil {
+		return fmt.Errorf("failed to setup metrics exporter: %w", err)
+	}
+	defer func() {
+		err := shutdown(context.Background())
+		if err != nil {
+			logger.Error("Failed to shutdown metrics exporter", slog.Any("error", err))
+		}
+	}()
 
 	r := mux.NewRouter()
 	tunnelFactory := func() connection.Tunnel {
