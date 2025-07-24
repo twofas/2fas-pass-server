@@ -97,12 +97,14 @@ const (
 	proxyDirectionBrowserExtension proxyDirection = "browser_extension"
 )
 
-func serve(logger *slog.Logger,
+func serve(parentLogger *slog.Logger,
 	pool *connection.Pool,
 	w http.ResponseWriter,
 	req *http.Request,
 	direction proxyDirection,
 ) {
+	logger := addTracingFieldsToLogger(req.Context(), parentLogger)
+
 	conn, err := upgrade(w, req)
 	if err != nil {
 		logger.Error("failed to upgrade proxy", slog.Any("error", err))
@@ -120,6 +122,8 @@ func serve(logger *slog.Logger,
 			"connection_id is required"))
 		return
 	}
+
+	logger = logger.With(slog.String("connection_id", connectionID))
 
 	monitoredConn := ws.NewMonitoredConn(conn, connectionID, string(direction), logger)
 
