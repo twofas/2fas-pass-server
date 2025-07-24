@@ -15,11 +15,12 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp"
 	"go.opentelemetry.io/otel/sdk/metric"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 )
 
 // Setup the OpenTelemetry pipeline.
 // If it does not return an error, make sure to call shutdown for proper cleanup.
-func Setup(ctx context.Context) (func(context.Context) error, error) {
+func Setup(ctx context.Context, enableExporter bool) (func(context.Context) error, error) {
 	var shutdownFuncs []func(context.Context) error
 	var err error
 
@@ -40,11 +41,6 @@ func Setup(ctx context.Context) (func(context.Context) error, error) {
 		err = errors.Join(inErr, shutdown(ctx))
 	}
 
-	exp, err := otlpmetrichttp.New(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to obtain OTLP HTTP exporter: %w", err)
-	}
-
 	runtimeReader := metric.NewManualReader(
 		// Add the runtime producer to get histograms from the Go runtime.
 		metric.WithProducer(runtime.NewProducer()),
@@ -56,17 +52,37 @@ func Setup(ctx context.Context) (func(context.Context) error, error) {
 	}
 
 	// Set up meter provider.
-	meterProvider := newMeterProvider(exp, runtimeReader)
+	meterProvider, newMeterProviderErr := newMeterProvider(ctx, enableExporter, runtimeReader)
+	if newMeterProviderErr != nil {
+		handleErr(newMeterProviderErr)
+		return shutdown, fmt.Errorf("failed to start runtime metrics: %w", err)
+	}
+
 	shutdownFuncs = append(shutdownFuncs, meterProvider.Shutdown)
 	otel.SetMeterProvider(meterProvider)
+
+	tracerProvider := newTraceProvider()
+	shutdownFuncs = append(shutdownFuncs, tracerProvider.Shutdown)
+	otel.SetTracerProvider(tracerProvider)
 
 	return shutdown, nil
 }
 
-func newMeterProvider(exp metric.Exporter, runtimeReader metric.Reader) *metric.MeterProvider {
-	meterProvider := metric.NewMeterProvider(
-		metric.WithReader(metric.NewPeriodicReader(exp)),
-		metric.WithReader(runtimeReader),
-	)
-	return meterProvider
+func newMeterProvider(ctx context.Context, enableExporter bool, runtime metric.Reader) (*metric.MeterProvider, error) {
+	options := []metric.Option{metric.WithReader(runtime)}
+
+	if enableExporter {
+		exp, err := otlpmetrichttp.New(ctx)
+		if err != nil {
+			return nil, fmt.Errorf("failed to obtain OTLP HTTP exporter: %w", err)
+		}
+		options = append(options, metric.WithReader(metric.NewPeriodicReader(exp)))
+	}
+
+	meterProvider := metric.NewMeterProvider(options...)
+	return meterProvider, nil
+}
+
+func newTraceProvider() *sdktrace.TracerProvider {
+	return sdktrace.NewTracerProvider()
 }
