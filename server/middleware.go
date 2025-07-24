@@ -7,6 +7,7 @@
 package server
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"time"
@@ -15,6 +16,7 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux"
 	"go.opentelemetry.io/otel/attribute"
 	semconvNew "go.opentelemetry.io/otel/semconv/v1.26.0"
+	"go.opentelemetry.io/otel/trace"
 )
 
 type responseRecorder struct {
@@ -43,7 +45,7 @@ func (r *responseRecorder) Write(b []byte) (int, error) {
 	return n, nil
 }
 
-func loggingMiddleware(logger *slog.Logger) mux.MiddlewareFunc {
+func loggingMiddleware(parentLogger *slog.Logger) mux.MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			route := mux.CurrentRoute(r)
@@ -58,6 +60,11 @@ func loggingMiddleware(logger *slog.Logger) mux.MiddlewareFunc {
 			if routeName == healthEndpointName {
 				next.ServeHTTP(w, r)
 				return
+			}
+
+			logger := addTracingFieldsToLogger(r.Context(), parentLogger)
+			if connectionID := mux.Vars(r)["connection_id"]; connectionID != "" {
+				logger = logger.With(slog.String("connection_id", connectionID))
 			}
 
 			start := time.Now()
@@ -79,7 +86,6 @@ func loggingMiddleware(logger *slog.Logger) mux.MiddlewareFunc {
 				ResponseWriter: w,
 				Hijacker:       h,
 			}
-
 			next.ServeHTTP(rr, r)
 			duration := time.Since(start)
 			logger.Info("request finished",
@@ -90,6 +96,16 @@ func loggingMiddleware(logger *slog.Logger) mux.MiddlewareFunc {
 			)
 		})
 	}
+}
+
+func addTracingFieldsToLogger(ctx context.Context, logger *slog.Logger) *slog.Logger {
+	spanCtx := trace.SpanContextFromContext(ctx)
+	traceID := spanCtx.TraceID().String()
+	spanID := spanCtx.SpanID().String()
+
+	return logger.
+		With(slog.String("trace_id", traceID)).
+		With(slog.String("span_id", spanID))
 }
 
 func metricsMiddleware() mux.MiddlewareFunc {
