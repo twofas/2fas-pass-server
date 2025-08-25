@@ -4,7 +4,7 @@
 # Licensed under the Business Source License 1.1
 # See LICENSE file for full terms
 
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
 RUN apk add --no-cache git
 WORKDIR /go/src/2fas-pass-server
 
