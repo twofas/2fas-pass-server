@@ -3,7 +3,7 @@ module github.com/twofas/2fas-pass-server
 go 1.24.0
 
 require (
-	firebase.google.com/go/v4 v4.17.0
+	firebase.google.com/go/v4 v4.18.0
 	github.com/avast/retry-go v3.0.0+incompatible
 	github.com/google/go-cmp v0.7.0
 	github.com/google/uuid v1.6.0
