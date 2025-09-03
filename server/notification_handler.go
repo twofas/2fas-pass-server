@@ -30,6 +30,12 @@ type NotificationHandler struct {
 	Notifications  *notif.Service
 	TTL            time.Duration
 	MaxMessageSize int64
+	Compatibility  Compatibility
+}
+
+type Compatibility struct {
+	MinimalIOSVersion     string `json:"minimalIosSVersion" env:"MINIMAL_IOS_VERSION" env-default:"1.0.0"`
+	MinimalAndroidVersion string `json:"minimalAndroidVersion" env:"MINIMAL_ANDROID_VERSION" env-default:"1.0.0"`
 }
 
 func (h *NotificationHandler) Add(writer http.ResponseWriter, request *http.Request) {
@@ -93,8 +99,10 @@ func (h *NotificationHandler) Get(w http.ResponseWriter, req *http.Request) {
 	notifications := h.Notifications.Get(deviceID, time.Now())
 	response := struct {
 		Notifications []notif.Notification `json:"notifications"`
+		Compatibility Compatibility        `json:"compatibility"`
 	}{
 		Notifications: notifications,
+		Compatibility: h.Compatibility,
 	}
 	bb, err := json.Marshal(response)
 	if err != nil {
