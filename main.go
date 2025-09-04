@@ -38,6 +38,7 @@ type Config struct {
 
 	ConnectionPoolConfig connection.Config
 	WebSocketConfig      wstunnel.Config
+	CompatibilityConfig  server.Compatibility
 
 	ClearCacheEvery     time.Duration `env:"CLEAR_CACHE_EVERY" env-default:"5s"`
 	CacheTTL            time.Duration `env:"CACHE_TTL" env-default:"5m"`
@@ -101,6 +102,7 @@ func start(logger *slog.Logger) error { //nolint:funlen // This is setup code
 		Notifications:  notifSrv,
 		TTL:            cfg.CacheTTL,
 		MaxMessageSize: cfg.MaxPayloadSizeBytes,
+		Compatibility:  cfg.CompatibilityConfig,
 	}
 
 	server.Setup(r, logger, connectionPool, notificationHandler)
