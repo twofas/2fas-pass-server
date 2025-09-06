@@ -35,7 +35,7 @@ type NotificationHandler struct {
 
 type Compatibility struct {
 	MinimalIOSVersion     string `json:"minimalIosVersion" env:"MINIMAL_IOS_VERSION" env-default:"1.0.0"`
-	MinimalAndroidVersion string `json:"minimalAndroidVersion" env:"MINIMAL_ANDROID_VERSION" env-default:"1.0.0"`
+	MinimalAndroidVersion int    `json:"minimalAndroidVersion" env:"MINIMAL_ANDROID_VERSION" env-default:"1"`
 }
 
 func (h *NotificationHandler) Add(writer http.ResponseWriter, request *http.Request) {
