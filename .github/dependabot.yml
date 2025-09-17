@@ -5,6 +5,10 @@ updates:
     target-branch: "develop"
     schedule:
       interval: "weekly"
+    groups:
+      all-gomod-updates:
+        patterns:
+          - "*"
 
   - package-ecosystem: "docker"
     directory: "/"
