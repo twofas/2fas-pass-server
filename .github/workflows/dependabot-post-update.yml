@@ -1,0 +1,39 @@
+name: Dependabot Post-Update License Headers
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    branches:
+      - develop
+
+jobs:
+  license-headers-fix:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Run license-headers-fix
+        run: make license-headers-fix
+      - name: Commit and push changes
+        run: |
+          # Check if licenses.json differs from develop branch
+          git fetch origin develop
+          if git diff --quiet origin/develop -- licenses.json; then
+            echo "No changes to licenses.json, skipping commit and push"
+            exit 0
+          fi
+          
+          make licenses
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add licenses.json
+          git diff --cached --quiet || git commit -m "chore: update license headers after dependabot update"
+          git push
