@@ -19,6 +19,7 @@ on:
 jobs:
 
   build:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,4 +55,3 @@ jobs:
         run: |
           go run main.go &
           RUN_E2E_TESTS=true go test ./e2e/... -v -count=1
-          
