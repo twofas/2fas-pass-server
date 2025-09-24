@@ -7,19 +7,14 @@
 name: Go
 
 on:
-  workflow_run:
-    workflows: [ "Dependabot Post-Update License Headers" ]
-    types:
-      - completed
   push:
     branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop"]
 
 jobs:
-
   build:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name != 'workflow_run' }}
+    if: github.actor != 'dependabot[bot]' # Skip for dependabot, handled in separate workflow
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
