@@ -4,7 +4,9 @@
 # Licensed under the Business Source License 1.1
 # See LICENSE file for full terms
 
-name: Dependabot Post-Update License Headers
+# This is a separate workflow to run after dependabot updates.
+# The difference is that it will commit any changes to licenses.json
+name: Dependabot Post-Update
 
 on:
   pull_request:
@@ -13,33 +15,56 @@ on:
       - develop
 
 jobs:
-  license-headers-fix:
+  build:
     if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-      - name: Set up Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.24'
-      - name: Run license-headers-fix
-        run: make license-headers-fix
-      - name: Commit and push changes
-        run: |
+      - uses: actions/checkout@v4
+      - name: Commit and push changes to licenses.json (if any)
+        run: |          
+          make licenses
+          
           # Check if licenses.json differs from develop branch
           git fetch origin develop
           if git diff --quiet origin/develop -- licenses.json; then
-            echo "No changes to licenses.json, skipping commit and push"
-            exit 0
+          echo "No changes to licenses.json, skipping commit and push"
+          exit 0
           fi
-          
-          make licenses
           
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add licenses.json
           git diff --cached --quiet || git commit -m "chore: update license headers after dependabot update"
           git push
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+      - name: Test if go.mod and go.sum are up to date
+        run: |
+          go mod tidy
+          git diff --exit-code
+      - name: Check if licences are up to date
+        run: |
+          set -euo pipefail
+          make licenses
+          git diff --exit-code
+      - name: Check if licence headers are up to date
+        run: |
+          make check-license-headers
+      - name: Check if code is formatted
+        run: |
+          make format
+          git diff --exit-code
+      - name: Run linters
+        run: make go-lint
+      - name: Unit Test once (to catch simple errors early)
+        run: go test -race ./...
+      - name: Unit Test multiple times (to catch flakely tests)
+        run: go test -race -count 200 -failfast ./...
+      - name: Build
+        run: go build ./...
+      - name: E2E
+        run: |
+          go run main.go &
+          RUN_E2E_TESTS=true go test ./e2e/... -v -count=1
