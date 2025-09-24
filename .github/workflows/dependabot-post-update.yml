@@ -1,3 +1,9 @@
+# SPDX-License-Identifier: BUSL-1.1
+#
+# Copyright (C) 2025 Two Factor Authentication Service, Inc.
+# Licensed under the Business Source License 1.1
+# See LICENSE file for full terms
+
 name: Dependabot Post-Update License Headers
 
 on:
