@@ -188,12 +188,20 @@
     "license": "Apache-2.0"
   },
   {
+    "package": "go.opentelemetry.io/otel",
+    "license": "BSD-3-Clause"
+  },
+  {
     "package": "go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp",
     "license": "Apache-2.0"
   },
   {
     "package": "go.opentelemetry.io/otel/metric",
     "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/metric",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "go.opentelemetry.io/otel/sdk",
@@ -206,6 +214,10 @@
   {
     "package": "go.opentelemetry.io/otel/trace",
     "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/trace",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "go.opentelemetry.io/proto/otlp",
