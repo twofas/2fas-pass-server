@@ -172,6 +172,10 @@
     "license": "Apache-2.0"
   },
   {
+    "package": "go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux",
+    "license": "BSD-3-Clause"
+  },
+  {
     "package": "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc",
     "license": "Apache-2.0"
   },
