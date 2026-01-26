@@ -156,16 +156,16 @@
     "license": "Apache-2.0"
   },
   {
-    "package": "github.com/zeebo/errs",
-    "license": "MIT"
-  },
-  {
     "package": "go.opentelemetry.io/auto/sdk",
     "license": "Apache-2.0"
   },
   {
     "package": "go.opentelemetry.io/contrib/detectors/gcp",
     "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/detectors/gcp",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux",
@@ -188,6 +188,10 @@
     "license": "Apache-2.0"
   },
   {
+    "package": "go.opentelemetry.io/contrib/instrumentation/runtime",
+    "license": "BSD-3-Clause"
+  },
+  {
     "package": "go.opentelemetry.io/otel",
     "license": "Apache-2.0"
   },
@@ -198,6 +202,10 @@
   {
     "package": "go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp",
     "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "go.opentelemetry.io/otel/metric",
