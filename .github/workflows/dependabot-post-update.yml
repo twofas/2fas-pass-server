@@ -31,11 +31,6 @@ jobs:
         run: |
           go mod tidy
           git diff --exit-code
-      - name: Check if licences are up to date
-        run: |
-          set -euo pipefail
-          make licenses
-          git diff --exit-code
       - name: Check if licence headers are up to date
         run: |
           make check-license-headers
@@ -59,9 +54,8 @@ jobs:
         run: |
           make licenses
           
-          # Check if licenses.json differs from develop branch
-          git fetch origin develop
-          if git diff --quiet origin/develop -- licenses.json; then
+          # Check if licenses.json differs from current worktree
+          if git diff --quiet -- licenses.json; then
           echo "No changes to licenses.json, skipping commit and push"
           exit 0
           fi
@@ -69,5 +63,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add licenses.json
-          git diff --cached --quiet || git commit -m "chore: update license headers after dependabot update"
+          git diff --cached --quiet || git commit -m "chore: update licenses.json after dependabot update"
           git push
+      - name: Check if licences are up to date
+        run: |
+          set -euo pipefail
+          make licenses
+          git diff --exit-code
