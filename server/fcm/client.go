@@ -81,7 +81,7 @@ type client struct {
 }
 
 func NewClient(ctx context.Context, credentials string, logger *slog.Logger) (Client, error) {
-	opt := option.WithCredentialsJSON([]byte(credentials))
+	opt := option.WithAuthCredentialsJSON(option.ServiceAccount, []byte(credentials))
 	app, err := firebase.NewApp(ctx, nil, opt)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create firebase app: %w", err)
