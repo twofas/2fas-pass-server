@@ -23,22 +23,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Commit and push changes to licenses.json (if any)
-        run: |          
-          make licenses
-          
-          # Check if licenses.json differs from develop branch
-          git fetch origin develop
-          if git diff --quiet origin/develop -- licenses.json; then
-          echo "No changes to licenses.json, skipping commit and push"
-          exit 0
-          fi
-          
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add licenses.json
-          git diff --cached --quiet || git commit -m "chore: update license headers after dependabot update"
-          git push
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -46,11 +30,6 @@ jobs:
       - name: Test if go.mod and go.sum are up to date
         run: |
           go mod tidy
-          git diff --exit-code
-      - name: Check if licences are up to date
-        run: |
-          set -euo pipefail
-          make licenses
           git diff --exit-code
       - name: Check if licence headers are up to date
         run: |
@@ -71,3 +50,23 @@ jobs:
         run: |
           go run main.go &
           RUN_E2E_TESTS=true go test ./e2e/... -v -count=1
+      - name: Commit and push changes to licenses.json (if any)
+        run: |
+          make licenses
+          
+          # Check if licenses.json differs from current worktree
+          if git diff --quiet -- licenses.json; then
+          echo "No changes to licenses.json, skipping commit and push"
+          exit 0
+          fi
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add licenses.json
+          git diff --cached --quiet || git commit -m "chore: update licenses.json after dependabot update"
+          git push
+      - name: Check if licences are up to date
+        run: |
+          set -euo pipefail
+          make licenses
+          git diff --exit-code
