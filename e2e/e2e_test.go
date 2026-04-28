@@ -408,7 +408,6 @@ func testWriteReceive(t *testing.T, writeWS, readWS *websocket.Conn, message str
 	t.Helper()
 	wg := sync.WaitGroup{}
 	wg.Go(func() {
-
 		_, received, err := readWS.ReadMessage()
 		if err != nil {
 			t.Errorf("Failed to read message: %v", err)
