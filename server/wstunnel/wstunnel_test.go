@@ -299,7 +299,7 @@ func TestIgnoreMessagesSentBeforeBothPartiesAreConnected(t *testing.T) {
 		leftConn := mustWSDial(t, addr, "left")
 		defer leftConn.Close()
 
-		for i := 0; i < 50; i++ {
+		for range 50 {
 			err := leftConn.WriteMessage(websocket.TextMessage, []byte("left->/dev/null"))
 			if err != nil {
 				t.Fatalf("Failed to write message: %v", err)
@@ -323,7 +323,7 @@ func TestIgnoreMessagesSentBeforeBothPartiesAreConnected(t *testing.T) {
 		rightConn := mustWSDial(t, addr, "right")
 		defer rightConn.Close()
 
-		for i := 0; i < 50; i++ {
+		for range 50 {
 			err := rightConn.WriteMessage(websocket.TextMessage, []byte("right->/dev/null"))
 			if err != nil {
 				t.Fatalf("Failed to write message: %v", err)
@@ -448,9 +448,7 @@ func mustWSDial(t *testing.T, addr, direction string) *websocket.Conn {
 func testWriteReceive(t *testing.T, writeWS, readWS *websocket.Conn, message string) {
 	t.Helper()
 	wg := sync.WaitGroup{}
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 
 		_, received, err := readWS.ReadMessage()
 		if err != nil {
@@ -460,7 +458,7 @@ func testWriteReceive(t *testing.T, writeWS, readWS *websocket.Conn, message str
 		if string(received) != message {
 			t.Errorf("Expected %q, received %q", message, string(received))
 		}
-	}()
+	})
 
 	if err := writeWS.WriteMessage(websocket.BinaryMessage, []byte(message)); err != nil {
 		t.Errorf("Failed to write message: %v", err)

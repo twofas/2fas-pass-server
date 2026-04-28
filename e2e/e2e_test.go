@@ -407,9 +407,7 @@ func testProxyBothWays(t *testing.T, leftConn, rightConn *websocket.Conn, leftPa
 func testWriteReceive(t *testing.T, writeWS, readWS *websocket.Conn, message string) {
 	t.Helper()
 	wg := sync.WaitGroup{}
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
+	wg.Go(func() {
 
 		_, received, err := readWS.ReadMessage()
 		if err != nil {
@@ -419,7 +417,7 @@ func testWriteReceive(t *testing.T, writeWS, readWS *websocket.Conn, message str
 		if string(received) != message {
 			t.Errorf("Expected %q, received %q", message, string(received))
 		}
-	}()
+	})
 
 	if err := writeWS.WriteMessage(websocket.BinaryMessage, []byte(message)); err != nil {
 		t.Errorf("Failed to write message: %v", err)

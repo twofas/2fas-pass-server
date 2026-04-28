@@ -167,8 +167,8 @@ func makeMessage(req PushToMobileRequest, notificationID string) (*messaging.Mes
 	}
 }
 
-func adaptDataForIOS(m map[string]string) map[string]interface{} {
-	res := make(map[string]interface{}, len(m))
+func adaptDataForIOS(m map[string]string) map[string]any {
+	res := make(map[string]any, len(m))
 	for k, v := range m {
 		res[k] = v
 	}
