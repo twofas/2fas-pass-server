@@ -180,8 +180,16 @@
     "license": "Apache-2.0"
   },
   {
+    "package": "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc",
+    "license": "BSD-3-Clause"
+  },
+  {
     "package": "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp",
     "license": "Apache-2.0"
+  },
+  {
+    "package": "go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp",
+    "license": "BSD-3-Clause"
   },
   {
     "package": "go.opentelemetry.io/contrib/instrumentation/runtime",
