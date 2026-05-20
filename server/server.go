@@ -38,6 +38,11 @@ func init() { //nolint: gochecknoinits // This is how you setup metrics.
 	}
 }
 
+func serveRoot(writer http.ResponseWriter, _ *http.Request) {
+	writer.WriteHeader(http.StatusOK)
+	_, _ = writer.Write([]byte("Hello from 2fas-pass-server!"))
+}
+
 func health(writer http.ResponseWriter, req *http.Request) {
 	rollCnt.Add(req.Context(), 1)
 	writer.WriteHeader(http.StatusOK)
@@ -55,6 +60,9 @@ func Setup(
 	pool *connection.Pool,
 	notif *NotificationHandler,
 ) {
+	r.HandleFunc("/", serveRoot).
+		Methods("GET").
+		Name("GET root")
 	r.HandleFunc("/health", health).
 		Methods("GET").
 		Name(healthEndpointName)
