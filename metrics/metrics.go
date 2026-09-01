@@ -21,7 +21,7 @@ import (
 // Setup the OpenTelemetry pipeline.
 // If it does not return an error, make sure to call shutdown for proper cleanup.
 func Setup(ctx context.Context, enableExporter bool) (func(context.Context) error, error) {
-	var shutdownFuncs []func(context.Context) error
+	shutdownFuncs := make([]func(context.Context) error, 0, 2)
 	var err error
 
 	// shutdown calls cleanup functions registered via shutdownFuncs.
