@@ -42,7 +42,7 @@ func main() {
 	}
 
 	resp, err := client.Send(context.Background(), &messaging.Message{
-		Token: *fcmToken,
+		Token: *fcmToken, //nolint:staticcheck // Token is still supported.
 		Android: &messaging.AndroidConfig{
 			Data: map[string]string{
 				"key": "value",
@@ -50,8 +50,7 @@ func main() {
 		},
 	})
 	if err != nil {
-		var fcmErr fcm.Error
-		if errors.As(err, &fcmErr) {
+		if fcmErr, ok := errors.AsType[fcm.Error](err); ok {
 			log.Printf("Failed to send push message: %v %s", fcmErr, fcmErr.Typ)
 		} else {
 			log.Printf("Failed to send push message: %v", err)

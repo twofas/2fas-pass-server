@@ -134,7 +134,7 @@ func makeMessage(req PushToMobileRequest, notificationID string) (*messaging.Mes
 	switch req.FCMTargetType {
 	case "android", "": // as Android as the default value for the field FCMTargetType.
 		return &messaging.Message{
-			Token: req.FCMToken,
+			Token: req.FCMToken, //nolint:staticcheck // Token is still supported.
 			Android: &messaging.AndroidConfig{
 				Data: data,
 				TTL:  &tokenPushNotificationTTL,
@@ -160,7 +160,7 @@ func makeMessage(req PushToMobileRequest, notificationID string) (*messaging.Mes
 					CustomData: adaptDataForIOS(data),
 				},
 			},
-			Token: req.FCMToken,
+			Token: req.FCMToken, //nolint:staticcheck // Token is still supported.
 		}, nil
 	default:
 		return nil, fmt.Errorf("unknown fcm target type: %q", req.FCMTargetType)

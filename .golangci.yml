@@ -6,7 +6,7 @@
 
 version: "2"
 run:
-  go: "1.24"
+  go: "1.27"
   modules-download-mode: readonly
 linters:
   default: none
@@ -42,7 +42,7 @@ linters:
     - gocyclo
     - godot
     - gomoddirectives
-    - gomodguard
+    - gomodguard_v2
     - goprintffuncname
     - gosec
     - gosmopolitan
@@ -102,6 +102,10 @@ linters:
       - third_party$
       - builtin$
       - examples$
+    rules:
+      - path: '(.+)_test\.go'
+        linters:
+          - goconst
 formatters:
   enable:
     - gofmt
