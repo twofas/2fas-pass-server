@@ -42,7 +42,7 @@ func main() {
 	}
 
 	resp, err := client.Send(context.Background(), &messaging.Message{
-		Token: *fcmToken,
+		Token: *fcmToken, //nolint:staticcheck // Token is still supported.
 		Android: &messaging.AndroidConfig{
 			Data: map[string]string{
 				"key": "value",

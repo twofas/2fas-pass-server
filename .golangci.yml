@@ -42,7 +42,7 @@ linters:
     - gocyclo
     - godot
     - gomoddirectives
-    - gomodguard
+    - gomodguard_v2
     - goprintffuncname
     - gosec
     - gosmopolitan
@@ -102,6 +102,10 @@ linters:
       - third_party$
       - builtin$
       - examples$
+    rules:
+      - path: '(.+)_test\.go'
+        linters:
+          - goconst
 formatters:
   enable:
     - gofmt
